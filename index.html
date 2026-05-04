@@ -1,229 +1,37 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-<meta charset="UTF-8">
-<title>太空杀交流群</title>
-
-<style>
-body {
-    font-family: "Microsoft YaHei", sans-serif;
-    background: linear-gradient(#f5f7fa, #e8ebf0);
-    padding: 30px;
-}
-
-.container {
-    max-width: 1200px;
-    margin: auto;
-}
-
-header {
-    text-align: center;
-    margin-bottom: 35px;
-}
-
-h1 {
-    font-size: 34px;
-    letter-spacing: 2px;
-}
-
-.subtitle {
-    color: #777;
-    margin-top: 6px;
-}
-
-/* 搜索 */
-.search-box {
-    text-align: center;
-    margin-bottom: 30px;
-}
-
-.search-box input {
-    width: 340px;
-    padding: 12px 18px;
-    font-size: 15px;
-    border-radius: 22px;
-    border: 1px solid #ccc;
-    outline: none;
-}
-
-/* 成员网格 */
-.member-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
-    gap: 26px;
-}
-
-/* 卡片 */
-.member-card {
-    background: #fff;
-    border-radius: 14px;
-    padding: 26px 20px;
-    text-align: center;
-    box-shadow: 0 8px 22px rgba(0,0,0,.08);
-    transition: .3s ease;
-    position: relative;
-}
-
-.member-card:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 14px 32px rgba(0,0,0,.15);
-}
-
-/* 头像 */
-.avatar {
-    width: 96px;
-    height: 96px;
-    border-radius: 50%;
-    transition: .3s ease;
-}
-
-.member-card:hover .avatar {
-    transform: scale(1.12);
-}
-
-/* 名字 */
-.name {
-    margin-top: 14px;
-    font-size: 20px;
-    font-weight: bold;
-}
-
-.name.owner {
-    color: #d4af37;
-    text-shadow: 0 0 6px rgba(212,175,55,.6);
-}
-
-/* 徽章 */
-.badge {
-    display: inline-block;
-    margin-left: 6px;
-    padding: 2px 10px;
-    border-radius: 12px;
-    font-size: 12px;
-}
-
-.badge.owner {
-    background: linear-gradient(135deg,#ffd700,#b8860b);
-    color: #fff;
-}
-
-.badge.manager {
-    background: linear-gradient(135deg,#4facfe,#00f2fe);
-    color: #fff;
-}
-
-/* 描述 */
-.desc {
-    margin-top: 10px;
-    font-size: 13px;
-    color: #666;
-    line-height: 1.6;
-}
-
-/* QQ */
-.qq {
-    margin-top: 8px;
-    font-size: 13px;
-    color: #888;
-}
-
-/* 详情按钮 */
-.detail-btn {
-    display: inline-block;
-    margin-top: 16px;
-    padding: 8px 18px;
-    background: linear-gradient(135deg,#667eea,#764ba2);
-    color: #fff;
-    border-radius: 20px;
-    text-decoration: none;
-    font-size: 13px;
-}
-
-footer {
-    text-align: center;
-    margin-top: 50px;
-    color: #999;
-    font-size: 13px;
-}
-</style>
-</head>
-
-<body>
-<div class="container">
-    <header>
-        <h1>太空杀交流群</h1>
-        <div class="subtitle">成员档案</div>
-    </header>
-
-    <!-- 搜索 -->
-    <div class="search-box">
-        <input id="search" placeholder="搜索昵称 / QQ 号">
-    </div>
-
-    <!-- 成员区 -->
-    <div class="member-grid" id="grid"></div>
-
-    <footer>
-        © 2026 太空杀交流群
-    </footer>
-</div>
-
 <script>
-const members = [
-    {
-        qq: "3408367085",
-        role: "群主",
-        realName: "森川",
-        desc: "每天都在幻想着能靠做点什么提高存在感"
-    },
-    {
-        qq: "2190294975",
-        role: "管理",
-        realName: "吴迪炸炸乐",
-        desc: "玩科技的都s去吧"
-    }
-];
-
 const grid = document.getElementById("grid");
 const search = document.getElementById("search");
-
 let cards = [];
 
-members.forEach(m => {
-    const card = document.createElement("div");
-    card.className = "member-card";
-    card.dataset.qq = m.qq;
-    card.dataset.name = m.realName;
+fetch("exm.json")
+.then(res => res.json())
+.then(list => {
+    list.forEach(m => {
+        const role = m.qq === "3408367085" ? "群主" : "成员";
 
-    card.innerHTML = `
-        <img class="avatar"
-             src="https://q.qlogo.cn/g?b=qq&nk=${m.qq}&s=100">
-        <div class="name ${m.role === '群主' ? 'owner' : ''}">
-            ${m.realName}
-            <span class="badge ${m.role === '群主' ? 'owner' : 'manager'}">${m.role}</span>
-        </div>
-        <div class="desc">${m.desc}</div>
-        <div class="qq">${m.qq}</div>
-        <a class="detail-btn" href="detail_${m.qq}.html">查看详情</a>
-    `;
+        const card = document.createElement("div");
+        card.className = "member-card";
+        card.dataset.qq = m.qq;
+        card.dataset.name = m.nickname;
 
-    grid.appendChild(card);
-    cards.push(card);
+        card.innerHTML = `
+            <img class="avatar" src="${m.avatar_url}">
+            <div class="name ${role === '群主' ? 'owner' : ''}">
+                ${m.nickname}
+                <span class="badge ${role === '群主' ? 'owner' : 'manager'}">
+                    ${role}
+                </span>
+                ${m.is_vip ? '<span style="color:#ffd700;margin-left:4px;">👑VIP' + m.vip_level + '</span>' : ''}
+            </div>
+            <div class="desc">${m.long_nick || "暂无签名"}</div>
+            <div class="qq">QQ：${m.qq}</div>
+            <div class="qq">等级：${m.qq_level} · ${m.sex}</div>
+            <a class="detail-btn" href="detail_${m.qq}.html">查看详情</a>
+        `;
 
-    /* 获取昵称（POST） */
-    fetch("https://www.ffapi.cn/int/v1/qqinfo", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ qq: m.qq })
-    })
-    .then(r => r.json())
-    .then(d => {
-        if (d.code === 0) {
-            card.querySelector(".name").firstChild.nodeValue = d.data.nickname + " ";
-            card.dataset.name = d.data.nickname;
-        }
-    })
-    .catch(() => {});
+        grid.appendChild(card);
+        cards.push(card);
+    });
 });
 
 /* 搜索 */
@@ -237,5 +45,3 @@ search.addEventListener("input", () => {
     });
 });
 </script>
-</body>
-</html>
