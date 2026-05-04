@@ -1,14 +1,23 @@
 <script>
 const grid = document.getElementById("grid");
-const search = document.getElementById("search");
+const searchInput = document.getElementById("search");
 let cards = [];
 
-fetch("exm.json")
-.then(res => res.json())
-.then(list => {
-    list.forEach(m => {
-        const role = m.qq === "3408367085" ? "群主" : "成员";
+// ✅ 使用你提供的确切 JSON 地址
+const JSON_URL = "https://zhuoxuan666.github.io/spaceparty/exm.json";
 
+fetch(JSON_URL)
+.then(response => {
+    if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    return response.json();
+})
+.then(members => {
+    members.forEach(m => {
+        // 判断群主逻辑
+        const role = m.qq === "3408367085" ? "群主" : "成员";
+        
         const card = document.createElement("div");
         card.className = "member-card";
         card.dataset.qq = m.qq;
@@ -18,23 +27,35 @@ fetch("exm.json")
             <img class="avatar" src="${m.avatar_url}">
             <div class="name ${role === '群主' ? 'owner' : ''}">
                 ${m.nickname}
-                <span class="badge ${role === '群主' ? 'owner' : 'manager'}">
-                    ${role}
-                </span>
-                ${m.is_vip ? '<span style="color:#ffd700;margin-left:4px;">👑VIP' + m.vip_level + '</span>' : ''}
+                <span class="badge ${role === '群主' ? 'owner' : 'manager'}">${role}</span>
             </div>
-            <div class="desc">${m.long_nick || "暂无签名"}</div>
-            <div class="qq">QQ：${m.qq}</div>
-            <div class="qq">等级：${m.qq_level} · ${m.sex}</div>
+            <div class="desc">${m.long_nick || "这个人很懒，什么都没留下"}</div>
+            <div class="qq">QQ：${m.qq} | 等级：${m.qq_level}</div>
             <a class="detail-btn" href="detail_${m.qq}.html">查看详情</a>
         `;
-
         grid.appendChild(card);
         cards.push(card);
     });
-});
 
-/* 搜索 */
+    // 初始化搜索功能
+    searchInput.addEventListener("input", () => {
+        const keyword = searchInput.value.trim().toLowerCase();
+        cards.forEach(card => {
+            const matches = card.dataset.name.toLowerCase().includes(keyword) || 
+                            card.dataset.qq.includes(keyword);
+            card.style.display = matches ? "" : "none";
+        });
+    });
+})
+.catch(error => {
+    // ✅ 出错时显示错误信息，而不是白屏
+    console.error("加载成员数据失败:", error);
+    grid.innerHTML = `<p style="text-align:center; color:red; font-size:18px;">
+                        数据加载失败，请检查 exm.json 路径或格式。<br>
+                        ${error.message}
+                      </p>`;
+});
+</script>/* 搜索 */
 search.addEventListener("input", () => {
     const v = search.value.trim().toLowerCase();
     cards.forEach(card => {
