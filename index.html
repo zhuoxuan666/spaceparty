@@ -94,7 +94,7 @@ h1 {
 }
 
 .qq {
-    margin-top: 8px;
+    margin-top: 6px;
     font-size: 13px;
     color: #888;
 }
@@ -139,7 +139,7 @@ const grid = document.getElementById("grid");
 const search = document.getElementById("search");
 let cards = [];
 
-/* ✅ 明确使用你提供的 JSON 地址 */
+/* ✅ 使用你指定的 JSON 地址 */
 const JSON_URL = "https://zhuoxuan666.github.io/spaceparty/exm.json";
 
 fetch(JSON_URL)
@@ -148,7 +148,7 @@ fetch(JSON_URL)
     return res.json();
 })
 .then(list => {
-    grid.innerHTML = ""; // 清空 loading
+    grid.innerHTML = "";
 
     list.forEach(m => {
         const role = m.qq === "3408367085" ? "群主" : "成员";
@@ -160,13 +160,28 @@ fetch(JSON_URL)
 
         card.innerHTML = `
             <img class="avatar" src="${m.avatar_url}" width="96">
+
             <div class="name ${role === '群主' ? 'owner' : ''}">
                 ${m.nickname}
                 <span class="badge ${role === '群主' ? 'owner' : 'manager'}">${role}</span>
+                ${m.is_vip ? `<span style="color:gold;margin-left:4px;">👑VIP${m.vip_level}</span>` : ''}
             </div>
+
             <div class="desc">${m.long_nick || "暂无签名"}</div>
+
             <div class="qq">QQ：${m.qq}</div>
-            <div class="qq">等级：${m.qq_level} · ${m.sex}</div>
+            <div class="qq">QID：${m.qid || "无"}</div>
+            <div class="qq">等级：${m.qq_level} · ${m.sex} · ${m.age}岁</div>
+            <div class="qq">地区：${m.location || "未知"}</div>
+            <div class="qq">邮箱：${m.email}</div>
+
+            <div class="qq" style="margin-top:6px;font-size:12px;color:#999;">
+                注册：${new Date(m.reg_time).toLocaleDateString()}
+            </div>
+            <div class="qq" style="font-size:12px;color:#999;">
+                更新：${new Date(m.last_updated).toLocaleString()}
+            </div>
+
             <a class="detail-btn" href="detail_${m.qq}.html">查看详情</a>
         `;
 
