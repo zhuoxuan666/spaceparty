@@ -15,20 +15,5 @@
     "reg_time": "2022-01-01T17:39:39+08:00",
     "last_updated": "2026-05-04T11:37:50.358408218+08:00"
   },
-  {
-    "qq": "3408367084",
-    "nickname": "yu",
-    "long_nick": "",
-    "avatar_url": "http://q.qlogo.cn/g?b=qq&nk=3408367084&s=640",
-    "age": 0,
-    "sex": "未知",
-    "qid": "",
-    "qq_level": 5,
-    "location": "",
-    "email": "3408367084@qq.com",
-    "is_vip": false,
-    "vip_level": 0,
-    "reg_time": "2020-01-01T16:44:35+08:00",
-    "last_updated": "2026-05-04T11:41:37.954524446+08:00"
-  }
+  {"qq":"2190294975","nickname":"吴迪炸炸乐","long_nick":"ㅤ","avatar_url":"http://q.qlogo.cn/g?b=qq\u0026nk=2190294975\u0026s=640","age":0,"sex":"未知","qid":"","qq_level":45,"location":"","email":"2190294975@qq.com","is_vip":true,"vip_level":6,"reg_time":"2021-01-01T19:18:30+08:00","last_updated":"2026-05-04T11:55:57.949977269+08:00"}
 ]
