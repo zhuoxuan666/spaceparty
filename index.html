@@ -1,68 +1,194 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>太空杀交流群</title>
+
+<style>
+body {
+    font-family: "Microsoft YaHei", sans-serif;
+    background: linear-gradient(#f5f7fa, #e8ebf0);
+    padding: 30px;
+}
+
+.container {
+    max-width: 1200px;
+    margin: auto;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 35px;
+}
+
+h1 {
+    font-size: 34px;
+}
+
+.subtitle {
+    color: #777;
+}
+
+/* 搜索 */
+.search-box {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.search-box input {
+    width: 340px;
+    padding: 12px 18px;
+    border-radius: 22px;
+    border: 1px solid #ccc;
+    font-size: 15px;
+}
+
+/* 成员区 */
+.member-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+    gap: 26px;
+}
+
+/* 卡片 */
+.member-card {
+    background: #fff;
+    border-radius: 14px;
+    padding: 26px 20px;
+    text-align: center;
+    box-shadow: 0 8px 22px rgba(0,0,0,.08);
+}
+
+.name {
+    margin-top: 14px;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.name.owner {
+    color: #d4af37;
+}
+
+.badge {
+    display: inline-block;
+    margin-left: 6px;
+    padding: 2px 10px;
+    border-radius: 12px;
+    font-size: 12px;
+}
+
+.badge.owner {
+    background: gold;
+    color: #fff;
+}
+
+.badge.manager {
+    background: #4facfe;
+    color: #fff;
+}
+
+.desc {
+    margin-top: 10px;
+    font-size: 13px;
+    color: #666;
+}
+
+.qq {
+    margin-top: 8px;
+    font-size: 13px;
+    color: #888;
+}
+
+.detail-btn {
+    display: inline-block;
+    margin-top: 16px;
+    padding: 8px 18px;
+    background: linear-gradient(135deg,#667eea,#764ba2);
+    color: #fff;
+    border-radius: 20px;
+    text-decoration: none;
+    font-size: 13px;
+}
+
+.loading {
+    text-align: center;
+    font-size: 18px;
+    color: #666;
+}
+</style>
+</head>
+
+<body>
+<div class="container">
+    <header>
+        <h1>太空杀交流群</h1>
+        <div class="subtitle">成员档案</div>
+    </header>
+
+    <div class="search-box">
+        <input id="search" placeholder="搜索昵称 / QQ">
+    </div>
+
+    <div class="member-grid" id="grid">
+        <div class="loading">正在加载成员数据...</div>
+    </div>
+</div>
+
 <script>
 const grid = document.getElementById("grid");
-const searchInput = document.getElementById("search");
+const search = document.getElementById("search");
 let cards = [];
 
-// ✅ 使用你提供的确切 JSON 地址
+/* ✅ 明确使用你提供的 JSON 地址 */
 const JSON_URL = "https://zhuoxuan666.github.io/spaceparty/exm.json";
 
 fetch(JSON_URL)
-.then(response => {
-    if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-    }
-    return response.json();
+.then(res => {
+    if (!res.ok) throw new Error("JSON 加载失败");
+    return res.json();
 })
-.then(members => {
-    members.forEach(m => {
-        // 判断群主逻辑
+.then(list => {
+    grid.innerHTML = ""; // 清空 loading
+
+    list.forEach(m => {
         const role = m.qq === "3408367085" ? "群主" : "成员";
-        
+
         const card = document.createElement("div");
         card.className = "member-card";
         card.dataset.qq = m.qq;
         card.dataset.name = m.nickname;
 
         card.innerHTML = `
-            <img class="avatar" src="${m.avatar_url}">
+            <img class="avatar" src="${m.avatar_url}" width="96">
             <div class="name ${role === '群主' ? 'owner' : ''}">
                 ${m.nickname}
                 <span class="badge ${role === '群主' ? 'owner' : 'manager'}">${role}</span>
             </div>
-            <div class="desc">${m.long_nick || "这个人很懒，什么都没留下"}</div>
-            <div class="qq">QQ：${m.qq} | 等级：${m.qq_level}</div>
+            <div class="desc">${m.long_nick || "暂无签名"}</div>
+            <div class="qq">QQ：${m.qq}</div>
+            <div class="qq">等级：${m.qq_level} · ${m.sex}</div>
             <a class="detail-btn" href="detail_${m.qq}.html">查看详情</a>
         `;
+
         grid.appendChild(card);
         cards.push(card);
     });
 
-    // 初始化搜索功能
-    searchInput.addEventListener("input", () => {
-        const keyword = searchInput.value.trim().toLowerCase();
+    /* 搜索 */
+    search.addEventListener("input", () => {
+        const v = search.value.trim().toLowerCase();
         cards.forEach(card => {
-            const matches = card.dataset.name.toLowerCase().includes(keyword) || 
-                            card.dataset.qq.includes(keyword);
-            card.style.display = matches ? "" : "none";
+            card.style.display =
+                card.dataset.name.toLowerCase().includes(v) ||
+                card.dataset.qq.includes(v)
+                ? "" : "none";
         });
     });
 })
-.catch(error => {
-    // ✅ 出错时显示错误信息，而不是白屏
-    console.error("加载成员数据失败:", error);
-    grid.innerHTML = `<p style="text-align:center; color:red; font-size:18px;">
-                        数据加载失败，请检查 exm.json 路径或格式。<br>
-                        ${error.message}
-                      </p>`;
-});
-</script>/* 搜索 */
-search.addEventListener("input", () => {
-    const v = search.value.trim().toLowerCase();
-    cards.forEach(card => {
-        card.style.display =
-            card.dataset.name.toLowerCase().includes(v) ||
-            card.dataset.qq.includes(v)
-            ? "" : "none";
-    });
+.catch(err => {
+    grid.innerHTML = `<p style="color:red;text-align:center;">加载失败：${err.message}</p>`;
+    console.error(err);
 });
 </script>
+</body>
+</html>
