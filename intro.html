@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>个人履历介绍</title>
+    <style>
+        :root {
+            --primary-color: #4a90e2;
+            --bg-color: #f5f7fa;
+            --card-bg: #ffffff;
+            --text-main: #333;
+            --text-secondary: #666;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg_color);
+            color: var(--text-main);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            max-width: 600px;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .profile-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            padding: 24px;
+            text-align: center;
+        }
+
+        .avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid var(--primary-color);
+            margin-bottom: 16px;
+        }
+
+        h1 {
+            margin: 0 0 8px 0;
+            font-size: 24px;
+        }
+
+        .meta-info {
+            color: var(--text-secondary);
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+
+        .section {
+            text-align: left;
+            margin-top: 24px;
+        }
+
+        .section h2 {
+            font-size: 18px;
+            color: var(--primary-color);
+            margin-bottom: 8px;
+            border-left: 4px solid var(--primary-color);
+            padding-left: 8px;
+        }
+
+        .section p {
+            margin: 0;
+            line-height: 1.6;
+            color: var(--text-secondary);
+        }
+
+        .links a {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            text-decoration: none;
+            margin: 5px;
+            font-size: 14px;
+            transition: background 0.3s;
+        }
+
+        .links a:hover {
+            background-color: #357abd;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 50px;
+            color: #999;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div id="content" class="loading">正在加载履历数据...</div>
+</div>
+
+<script>
+    // 配置项
+    const TARGET_QQ = '3408367085'; // 你要查找的QQ号
+    const JSON_URL = 'https://zhuoxuan666.github.io/space%20party/mem.json';
+    
+    // 使用一个免费的公共CORS代理来绕过跨域限制
+    const CORS_PROXY = 'https://corsproxy.io/?';
+    const FETCH_URL = CORS_PROXY + encodeURIComponent(JSON_URL);
+
+    async function fetchAndRender() {
+        try {
+            const response = await fetch(FETCH_URL);
+            if (!response.ok) throw new Error(`网络响应失败: ${response.status}`);
+            
+            const data = await response.json();
+            
+            // 查找目标用户
+            const user = data.find(u => u.qq === TARGET_QQ);
+            
+            if (!user) {
+                document.getElementById('content').innerHTML = `<p class="loading">未找到 QQ 为 ${TARGET_QQ} 的用户。</p>`;
+                return;
+            }
+
+            renderProfile(user);
+        } catch (error) {
+            console.error('获取数据时出错:', error);
+            document.getElementById('content').innerHTML = `<p class="loading">加载数据失败，请检查控制台查看详情。<br>${error.message}</p>`;
+        }
+    }
+
+    function renderProfile(user) {
+        // 构建社交链接 (过滤掉没有名字或链接的属性)
+        let linksHtml = '';
+        for (const key in user) {
+            if (key.startsWith('web') && key.includes('name')) {
+                const index = key.replace('web', '').replace('name', '');
+                const webName = user[key];
+                const webUrl = user[`url${index}`];
+                
+                if (webName && webUrl) {
+                    linksHtml += `<a href="${webUrl}" target="_blank" rel="noopener noreferrer">${webName}</a>`;
+                }
+            }
+        }
+
+        // 性别映射
+        const sexMap = {
+            'male': '男',
+            'female': '女'
+        };
+
+        document.getElementById('content').innerHTML = `
+            <div class="profile-card">
+                <img src="${user.avatar_url}" alt="${user.nickname}的头像" class="avatar" onerror="this.src='https://via.placeholder.com/120?text=No+Image'">
+                
+                <h1>${user.nickname}</h1>
+                <div class="meta-info">
+                    <span>QQ: ${user.qq}</span> | 
+                    <span>年龄: ${user.age}</span> | 
+                    <span>性别: ${sexMap[user.sex] || user.sex}</span>
+                </div>
+
+                <div class="section">
+                    <h2>个人成就</h2>
+                    <p>${user.achieve || '暂无成就描述'}</p>
+                </div>
+
+                <div class="section">
+                    <h2>历史经历</h2>
+                    <p>${user.history || '暂无历史经历'}</p>
+                </div>
+
+                ${linksHtml ? `
+                <div class="section">
+                    <h2>社交链接</h2>
+                    <div class="links">
+                        ${linksHtml}
+                    </div>
+                </div>
+                ` : ''}
+            </div>
+        `;
+    }
+
+    // 页面加载后执行
+    fetchAndRender();
+</script>
+
+</body>
+</html>
