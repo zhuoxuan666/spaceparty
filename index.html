@@ -2,31 +2,43 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>太空杀交流群</title>
 
 <style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 body {
-    font-family: "Microsoft YaHei", sans-serif;
+    font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
     background: linear-gradient(#f5f7fa, #e8ebf0);
-    padding: 30px;
+    padding: 20px;
+    min-height: 100vh;
 }
 
 .container {
     max-width: 1200px;
-    margin: auto;
+    margin: 0 auto;
 }
 
 header {
     text-align: center;
-    margin-bottom: 35px;
+    margin-bottom: 30px;
+    padding-top: 20px;
 }
 
 h1 {
-    font-size: 34px;
+    font-size: 32px;
+    color: #333;
+    margin-bottom: 8px;
 }
 
 .subtitle {
-    color: #777;
+    color: #666;
+    font-size: 16px;
 }
 
 /* 搜索 */
@@ -36,33 +48,65 @@ h1 {
 }
 
 .search-box input {
-    width: 340px;
-    padding: 12px 18px;
-    border-radius: 22px;
+    width: 100%;
+    max-width: 400px;
+    padding: 12px 20px;
+    border-radius: 25px;
     border: 1px solid #ccc;
     font-size: 15px;
+    outline: none;
+    transition: all 0.3s;
+}
+
+.search-box input:focus {
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
 }
 
 /* 成员区 */
 .member-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
-    gap: 26px;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 25px;
 }
 
 /* 卡片 */
 .member-card {
     background: #fff;
-    border-radius: 14px;
-    padding: 26px 20px;
+    border-radius: 16px;
+    padding: 25px 20px;
     text-align: center;
-    box-shadow: 0 8px 22px rgba(0,0,0,.08);
+    box-shadow: 0 8px 25px rgba(0,0,0,.08);
+    transition: transform 0.3s, box-shadow 0.3s;
+    border: 1px solid rgba(0,0,0,0.05);
+}
+
+.member-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0,0,0,.12);
+}
+
+.avatar {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid #fff;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    margin: 0 auto 15px;
+    display: block;
 }
 
 .name {
-    margin-top: 14px;
+    margin-top: 5px;
     font-size: 20px;
     font-weight: bold;
+    color: #333;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    flex-wrap: wrap;
 }
 
 .name.owner {
@@ -71,49 +115,161 @@ h1 {
 
 .badge {
     display: inline-block;
-    margin-left: 6px;
-    padding: 2px 10px;
+    padding: 3px 12px;
     border-radius: 12px;
     font-size: 12px;
+    font-weight: 500;
+    white-space: nowrap;
 }
 
 .badge.owner {
-    background: gold;
+    background: linear-gradient(135deg, #d4af37, #b8941c);
     color: #fff;
 }
 
 .badge.manager {
-    background: #4facfe;
+    background: linear-gradient(135deg, #4facfe, #00f2fe);
+    color: #fff;
+}
+
+.badge.member {
+    background: linear-gradient(135deg, #6a89cc, #b8e994);
     color: #fff;
 }
 
 .desc {
-    margin-top: 10px;
+    margin-top: 12px;
     font-size: 13px;
     color: #666;
+    line-height: 1.5;
+    min-height: 20px;
+    padding: 0 5px;
 }
 
 .qq {
     margin-top: 6px;
     font-size: 13px;
     color: #888;
+    line-height: 1.4;
+}
+
+.info-line {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 8px;
+    font-size: 12px;
+    color: #666;
+}
+
+.info-item {
+    background: #f5f7fa;
+    padding: 3px 10px;
+    border-radius: 10px;
+}
+
+.time-info {
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid #eee;
+    font-size: 12px;
+    color: #999;
+    line-height: 1.4;
 }
 
 .detail-btn {
     display: inline-block;
-    margin-top: 16px;
-    padding: 8px 18px;
-    background: linear-gradient(135deg,#667eea,#764ba2);
+    margin-top: 18px;
+    padding: 10px 24px;
+    background: linear-gradient(135deg, #667eea, #764ba2);
     color: #fff;
-    border-radius: 20px;
+    border-radius: 25px;
     text-decoration: none;
-    font-size: 13px;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.3s;
+    border: none;
+    cursor: pointer;
+    min-width: 120px;
+    min-height: 40px;
+}
+
+.detail-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
 }
 
 .loading {
     text-align: center;
+    padding: 60px 20px;
     font-size: 18px;
     color: #666;
+    grid-column: 1 / -1;
+}
+
+.error {
+    text-align: center;
+    padding: 40px 20px;
+    color: #e74c3c;
+    background: #fdf5f5;
+    border-radius: 12px;
+    grid-column: 1 / -1;
+    border: 2px dashed #e74c3c;
+}
+
+.retry-btn {
+    background: #667eea;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 15px;
+}
+
+.retry-btn:hover {
+    background: #5a6fd8;
+}
+
+/* 移动端优化 */
+@media (max-width: 768px) {
+    body {
+        padding: 15px;
+    }
+    
+    h1 {
+        font-size: 28px;
+    }
+    
+    .member-grid {
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 20px;
+    }
+    
+    .member-card {
+        padding: 20px 15px;
+    }
+    
+    .avatar {
+        width: 90px;
+        height: 90px;
+    }
+    
+    .search-box input {
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .member-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .member-card {
+        max-width: 100%;
+    }
 }
 </style>
 </head>
@@ -126,7 +282,7 @@ h1 {
     </header>
 
     <div class="search-box">
-        <input id="search" placeholder="搜索昵称 / QQ">
+        <input id="search" placeholder="搜索昵称 / QQ号" autocomplete="off">
     </div>
 
     <div class="member-grid" id="grid">
@@ -142,67 +298,168 @@ let cards = [];
 /* ✅ 使用你指定的 JSON 地址 */
 const JSON_URL = "https://zhuoxuan666.github.io/spaceparty/exm.json";
 
-fetch(JSON_URL)
-.then(res => {
-    if (!res.ok) throw new Error("JSON 加载失败");
-    return res.json();
-})
-.then(list => {
-    grid.innerHTML = "";
+async function loadMembers() {
+    try {
+        const response = await fetch(JSON_URL);
+        
+        if (!response.ok) throw new Error(`HTTP ${response.status}: JSON 加载失败`);
+        
+        const list = await response.json();
+        grid.innerHTML = "";
 
-    list.forEach(m => {
-        const role = m.qq === "3408367085" ? "群主" : "成员";
+        list.forEach(m => {
+            // 根据QQ号判断角色
+            let role = "成员";
+            let roleClass = "member";
+            
+            if (m.qq === "3408367085") {
+                role = "群主";
+                roleClass = "owner";
+            } else if (m.role === "admin" || m.role === "管理员") {
+                role = "管理员";
+                roleClass = "manager";
+            }
 
-        const card = document.createElement("div");
-        card.className = "member-card";
-        card.dataset.qq = m.qq;
-        card.dataset.name = m.nickname;
+            const card = document.createElement("div");
+            card.className = "member-card";
+            card.dataset.qq = m.qq;
+            card.dataset.name = m.nickname;
+            card.dataset.search = `${m.nickname} ${m.qq} ${m.long_nick || ''} ${m.location || ''}`.toLowerCase();
 
-        card.innerHTML = `
-            <img class="avatar" src="${m.avatar_url}" width="96">
+            // 格式化时间显示
+            const formatDate = (timestamp) => {
+                if (!timestamp) return "未知";
+                try {
+                    const date = new Date(timestamp);
+                    return date.toLocaleDateString('zh-CN');
+                } catch (e) {
+                    return "日期错误";
+                }
+            };
 
-            <div class="name ${role === '群主' ? 'owner' : ''}">
-                ${m.nickname}
-                <span class="badge ${role === '群主' ? 'owner' : 'manager'}">${role}</span>
-                ${m.is_vip ? `<span style="color:gold;margin-left:4px;">👑VIP${m.vip_level}</span>` : ''}
-            </div>
+            const formatDateTime = (timestamp) => {
+                if (!timestamp) return "未知";
+                try {
+                    const date = new Date(timestamp);
+                    return date.toLocaleString('zh-CN', { 
+                        year: 'numeric', 
+                        month: '2-digit', 
+                        day: '2-digit',
+                        hour: '2-digit',
+                        minute: '2-digit'
+                    });
+                } catch (e) {
+                    return "时间错误";
+                }
+            };
 
-            <div class="desc">${m.long_nick || "暂无签名"}</div>
+            card.innerHTML = `
+                <img class="avatar" src="${m.avatar_url || 'https://via.placeholder.com/100?text=头像'}" 
+                     alt="${m.nickname}" 
+                     width="100"
+                     height="100"
+                     onerror="this.src='https://via.placeholder.com/100?text=头像加载失败'"
+                     loading="lazy">
 
-            <div class="qq">QQ：${m.qq}</div>
-            <div class="qq">QID：${m.qid || "无"}</div>
-            <div class="qq">等级：${m.qq_level} · ${m.sex} · ${m.age}岁</div>
-            <div class="qq">地区：${m.location || "未知"}</div>
-            <div class="qq">邮箱：${m.email}</div>
+                <div class="name ${roleClass === 'owner' ? 'owner' : ''}">
+                    ${m.nickname || "未知昵称"}
+                    <span class="badge ${roleClass}">${role}</span>
+                    ${m.is_vip ? `<span style="color:gold;margin-left:4px;">👑VIP${m.vip_level || ''}</span>` : ''}
+                </div>
 
-            <div class="qq" style="margin-top:6px;font-size:12px;color:#999;">
-                注册：${new Date(m.reg_time).toLocaleDateString()}
-            </div>
-            <div class="qq" style="font-size:12px;color:#999;">
-                更新：${new Date(m.last_updated).toLocaleString()}
-            </div>
+                <div class="desc">${m.long_nick || "暂无签名"}</div>
 
-            <a class="detail-btn" href="detail_${m.qq}.html">查看详情</a>
-        `;
+                <div class="qq">QQ：${m.qq || "无"}</div>
+                <div class="info-line">
+                    ${m.qid ? `<span class="info-item">QID: ${m.qid}</span>` : ''}
+                    <span class="info-item">等级: ${m.qq_level || "0"}</span>
+                    <span class="info-item">${m.sex === 'male' ? '男' : m.sex === 'female' ? '女' : '未知'}</span>
+                    <span class="info-item">${m.age || "?"}岁</span>
+                </div>
+                
+                ${m.location ? `<div class="qq">地区：${m.location}</div>` : ''}
+                ${m.email ? `<div class="qq">邮箱：${m.email}</div>` : ''}
 
-        grid.appendChild(card);
-        cards.push(card);
-    });
+                <div class="time-info">
+                    <div>注册：${formatDate(m.reg_time)}</div>
+                    <div>更新：${formatDateTime(m.last_updated)}</div>
+                </div>
 
-    /* 搜索 */
-    search.addEventListener("input", () => {
-        const v = search.value.trim().toLowerCase();
-        cards.forEach(card => {
-            card.style.display =
-                card.dataset.name.toLowerCase().includes(v) ||
-                card.dataset.qq.includes(v)
-                ? "" : "none";
+                <!-- ✅ 修改这里：使用 detail.html?qq=xxx 格式 -->
+                <a class="detail-btn" href="detail.html?qq=${m.qq}" data-qq="${m.qq}">查看详情</a>
+            `;
+
+            grid.appendChild(card);
+            cards.push(card);
         });
-    });
-})
-.catch(err => {
-    grid.innerHTML = `<p style="color:red;text-align:center;">加载失败：${err.message}</p>`;
-    console.error(err);
+
+        // 搜索功能
+        search.addEventListener("input", (e) => {
+            const keyword = e.target.value.trim().toLowerCase();
+            
+            cards.forEach(card => {
+                if (!keyword) {
+                    card.style.display = "";
+                    return;
+                }
+                
+                const searchData = card.dataset.search;
+                const shouldShow = searchData.includes(keyword);
+                card.style.display = shouldShow ? "" : "none";
+            });
+        });
+
+        // 为详情按钮添加点击确认（移动端优化）
+        document.querySelectorAll('.detail-btn').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                const qq = this.getAttribute('data-qq');
+                if (qq && window.innerWidth <= 768) {
+                    if (confirm(`即将查看 QQ ${qq} 的详细信息\n\n确认要跳转吗？`)) {
+                        return true;
+                    } else {
+                        e.preventDefault();
+                        return false;
+                    }
+                }
+                return true;
+            });
+        });
+
+    } catch (err) {
+        console.error(err);
+        grid.innerHTML = `
+            <div class="error">
+                <h3>❌ 数据加载失败</h3>
+                <p>错误信息：${err.message}</p>
+                <p>请检查网络连接或JSON文件地址是否正确。</p>
+                <button class="retry-btn" onclick="location.reload()">重新加载</button>
+            </div>
+        `;
+    }
+}
+
+// 页面加载完成后执行
+document.addEventListener('DOMContentLoaded', function() {
+    // 防止移动端缩放
+    let lastTouchEnd = 0;
+    document.addEventListener('touchend', function(e) {
+        const now = Date.now();
+        if (now - lastTouchEnd <= 300) {
+            e.preventDefault();
+        }
+        lastTouchEnd = now;
+    }, { passive: false });
+    
+    // 加载成员数据
+    loadMembers();
+    
+    // 从URL获取搜索参数
+    const urlParams = new URLSearchParams(window.location.search);
+    const searchParam = urlParams.get('search');
+    if (searchParam) {
+        search.value = searchParam;
+        search.dispatchEvent(new Event('input'));
+    }
 });
 </script>
 </body>
