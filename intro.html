@@ -5,194 +5,328 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>个人履历介绍</title>
     <style>
-        :root {
-            --primary-color: #4a90e2;
-            --bg-color: #f5f7fa;
-            --card-bg: #ffffff;
-            --text-main: #333;
-            --text-secondary: #666;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: var(--bg_color);
-            color: var(--text-main);
-            margin: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Microsoft YaHei", sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: #333;
+            min-height: 100vh;
             padding: 20px;
             display: flex;
             justify-content: center;
+            align-items: center;
         }
 
         .container {
-            max-width: 600px;
+            max-width: 800px;
             width: 100%;
-            margin-top: 20px;
         }
 
         .profile-card {
-            background: var(--card-bg);
-            border-radius: 16px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-            padding: 24px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(50, 50, 93, 0.1), 0 5px 15px rgba(0, 0, 0, 0.07);
+            overflow: hidden;
+        }
+
+        .card-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px 30px 30px;
             text-align: center;
         }
 
         .avatar {
-            width: 120px;
-            height: 120px;
+            width: 140px;
+            height: 140px;
             border-radius: 50%;
+            border: 6px solid rgba(255, 255, 255, 0.3);
             object-fit: cover;
-            border: 4px solid var(--primary-color);
-            margin-bottom: 16px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
         }
 
         h1 {
-            margin: 0 0 8px 0;
-            font-size: 24px;
+            font-size: 32px;
+            margin-bottom: 8px;
+        }
+
+        .qq-number {
+            font-size: 16px;
+            opacity: 0.9;
+            margin-bottom: 15px;
         }
 
         .meta-info {
-            color: var(--text-secondary);
-            font-size: 14px;
-            margin-bottom: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            font-size: 15px;
+            margin-top: 10px;
+        }
+
+        .meta-item {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 6px 15px;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        .card-content {
+            padding: 35px;
         }
 
         .section {
-            text-align: left;
-            margin-top: 24px;
+            margin-bottom: 30px;
         }
 
-        .section h2 {
-            font-size: 18px;
-            color: var(--primary-color);
-            margin-bottom: 8px;
-            border-left: 4px solid var(--primary-color);
-            padding-left: 8px;
+        .section-title {
+            font-size: 20px;
+            color: #4a5568;
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #e2e8f0;
+            display: flex;
+            align-items: center;
         }
 
-        .section p {
-            margin: 0;
-            line-height: 1.6;
-            color: var(--text-secondary);
-        }
-
-        .links a {
+        .section-title::before {
+            content: '';
             display: inline-block;
-            background-color: var(--primary-color);
-            color: white;
-            padding: 8px 16px;
-            border-radius: 20px;
-            text-decoration: none;
-            margin: 5px;
-            font-size: 14px;
-            transition: background 0.3s;
+            width: 6px;
+            height: 20px;
+            background: #667eea;
+            border-radius: 3px;
+            margin-right: 10px;
         }
 
-        .links a:hover {
-            background-color: #357abd;
+        .section-content {
+            font-size: 16px;
+            line-height: 1.7;
+            color: #4a5568;
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 12px;
+            border-left: 4px solid #667eea;
+        }
+
+        .links-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 10px;
+        }
+
+        .social-link {
+            display: inline-flex;
+            align-items: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-size: 15px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(102, 126, 234, 0.2);
+        }
+
+        .social-link:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 12px rgba(102, 126, 234, 0.3);
         }
 
         .loading {
             text-align: center;
-            padding: 50px;
-            color: #999;
+            padding: 60px 20px;
+            color: #718096;
+            font-size: 18px;
+        }
+
+        .error {
+            text-align: center;
+            padding: 40px 20px;
+            color: #e53e3e;
+            background: #fff5f5;
+            border-radius: 12px;
+            border: 2px dashed #fc8181;
+        }
+
+        .retry-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 12px 28px;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: background 0.3s;
+        }
+
+        .retry-btn:hover {
+            background: #5a6fd8;
+        }
+
+        .debug-note {
+            font-size: 12px;
+            color: #a0aec0;
+            text-align: center;
+            margin-top: 30px;
+            padding: 15px;
+            background: #f7fafc;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
         }
     </style>
 </head>
 <body>
+    <div class="container">
+        <div id="content" class="loading">
+            正在从同目录加载 men.json 数据...
+        </div>
+    </div>
 
-<div class="container">
-    <div id="content" class="loading">正在加载履历数据...</div>
-</div>
-
-<script>
-    // 配置项
-    const TARGET_QQ = '3408367085'; // 你要查找的QQ号
-    const JSON_URL = 'https://zhuoxuan666.github.io/space%20party/mem.json';
-    
-    // 使用一个免费的公共CORS代理来绕过跨域限制
-    const CORS_PROXY = 'https://corsproxy.io/?';
-    const FETCH_URL = CORS_PROXY + encodeURIComponent(JSON_URL);
-
-    async function fetchAndRender() {
-        try {
-            const response = await fetch(FETCH_URL);
-            if (!response.ok) throw new Error(`网络响应失败: ${response.status}`);
-            
-            const data = await response.json();
-            
-            // 查找目标用户
-            const user = data.find(u => u.qq === TARGET_QQ);
-            
-            if (!user) {
-                document.getElementById('content').innerHTML = `<p class="loading">未找到 QQ 为 ${TARGET_QQ} 的用户。</p>`;
-                return;
-            }
-
-            renderProfile(user);
-        } catch (error) {
-            console.error('获取数据时出错:', error);
-            document.getElementById('content').innerHTML = `<p class="loading">加载数据失败，请检查控制台查看详情。<br>${error.message}</p>`;
+    <script>
+        // 获取URL参数中的QQ号
+        function getQQFromURL() {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get('qq') || '3408367085'; // 默认为 3408367085
         }
-    }
 
-    function renderProfile(user) {
-        // 构建社交链接 (过滤掉没有名字或链接的属性)
-        let linksHtml = '';
-        for (const key in user) {
-            if (key.startsWith('web') && key.includes('name')) {
-                const index = key.replace('web', '').replace('name', '');
-                const webName = user[key];
-                const webUrl = user[`url${index}`];
+        // 从本地同目录加载 JSON 数据
+        async function loadLocalData() {
+            const targetQQ = getQQFromURL();
+            const contentEl = document.getElementById('content');
+            
+            try {
+                // 直接请求同目录下的 men.json 文件
+                const response = await fetch('men.json');
                 
-                if (webName && webUrl) {
-                    linksHtml += `<a href="${webUrl}" target="_blank" rel="noopener noreferrer">${webName}</a>`;
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: 无法加载 men.json 文件`);
+                }
+                
+                const data = await response.json();
+                console.log('加载到的数据:', data);
+                
+                // 查找目标用户
+                const user = data.find(u => u.qq === targetQQ);
+                
+                if (!user) {
+                    contentEl.innerHTML = `
+                        <div class="error">
+                            <h3>未找到用户</h3>
+                            <p>在 men.json 中未找到 QQ 为 <strong>${targetQQ}</strong> 的用户。</p>
+                            <p>文件中共有 ${data.length} 条记录，可用的QQ号有：${data.map(u => u.qq).join(', ')}</p>
+                            <button class="retry-btn" onclick="loadLocalData()">重新加载</button>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                // 渲染用户信息
+                renderUserProfile(user);
+                
+            } catch (error) {
+                console.error('加载失败:', error);
+                contentEl.innerHTML = `
+                    <div class="error">
+                        <h3>数据加载失败</h3>
+                        <p>错误信息: ${error.message}</p>
+                        <p>请确保 men.json 文件与当前HTML文件在同一目录下。</p>
+                        <button class="retry-btn" onclick="loadLocalData()">重试</button>
+                    </div>
+                `;
+            }
+        }
+
+        // 渲染用户信息
+        function renderUserProfile(user) {
+            // 处理社交链接
+            let linksHtml = '';
+            for (let i = 1; i <= 10; i++) {
+                const webNameKey = `web${i}name`;
+                const webUrlKey = `url${i}`;
+                
+                if (user[webNameKey] && user[webUrlKey]) {
+                    // 确保URL有协议头
+                    let url = user[webUrlKey];
+                    if (!url.startsWith('http://') && !url.startsWith('https://')) {
+                        url = 'https://' + url;
+                    }
+                    
+                    linksHtml += `
+                        <a href="${url}" target="_blank" rel="noopener noreferrer" class="social-link">
+                            ${user[webNameKey]}
+                        </a>
+                    `;
                 }
             }
-        }
 
-        // 性别映射
-        const sexMap = {
-            'male': '男',
-            'female': '女'
-        };
+            // 性别显示
+            const sexDisplay = {
+                'male': '男',
+                'female': '女',
+                'Male': '男',
+                'Female': '女'
+            }[user.sex] || user.sex || '未设置';
 
-        document.getElementById('content').innerHTML = `
-            <div class="profile-card">
-                <img src="${user.avatar_url}" alt="${user.nickname}的头像" class="avatar" onerror="this.src='https://via.placeholder.com/120?text=No+Image'">
-                
-                <h1>${user.nickname}</h1>
-                <div class="meta-info">
-                    <span>QQ: ${user.qq}</span> | 
-                    <span>年龄: ${user.age}</span> | 
-                    <span>性别: ${sexMap[user.sex] || user.sex}</span>
-                </div>
-
-                <div class="section">
-                    <h2>个人成就</h2>
-                    <p>${user.achieve || '暂无成就描述'}</p>
-                </div>
-
-                <div class="section">
-                    <h2>历史经历</h2>
-                    <p>${user.history || '暂无历史经历'}</p>
-                </div>
-
-                ${linksHtml ? `
-                <div class="section">
-                    <h2>社交链接</h2>
-                    <div class="links">
-                        ${linksHtml}
+            const contentEl = document.getElementById('content');
+            contentEl.innerHTML = `
+                <div class="profile-card">
+                    <div class="card-header">
+                        <img src="${user.avatar_url || 'https://via.placeholder.com/140?text=No+Avatar'}" 
+                             alt="${user.nickname}的头像" 
+                             class="avatar"
+                             onerror="this.src='https://via.placeholder.com/140?text=头像加载失败'">
+                        <h1>${user.nickname || '未命名用户'}</h1>
+                        <div class="qq-number">QQ: ${user.qq}</div>
+                        <div class="meta-info">
+                            <span class="meta-item">${sexDisplay}</span>
+                            <span class="meta-item">${user.age ? user.age + '岁' : '年龄未设置'}</span>
+                        </div>
+                    </div>
+                    
+                    <div class="card-content">
+                        ${user.achieve ? `
+                        <div class="section">
+                            <div class="section-title">个人成就</div>
+                            <div class="section-content">${user.achieve}</div>
+                        </div>
+                        ` : ''}
+                        
+                        ${user.history ? `
+                        <div class="section">
+                            <div class="section-title">历史经历</div>
+                            <div class="section-content">${user.history}</div>
+                        </div>
+                        ` : ''}
+                        
+                        ${linksHtml ? `
+                        <div class="section">
+                            <div class="section-title">社交链接</div>
+                            <div class="links-container">${linksHtml}</div>
+                        </div>
+                        ` : ''}
+                    </div>
+                    
+                    <div class="debug-note">
+                        数据来源: 同目录下的 men.json 文件 | 
+                        当前QQ: ${user.qq} | 
+                        加载时间: ${new Date().toLocaleString('zh-CN')}
                     </div>
                 </div>
-                ` : ''}
-            </div>
-        `;
-    }
+            `;
+        }
 
-    // 页面加载后执行
-    fetchAndRender();
-</script>
-
+        // 页面加载完成后执行
+        document.addEventListener('DOMContentLoaded', loadLocalData);
+    </script>
 </body>
 </html>
