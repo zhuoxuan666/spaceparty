@@ -2,6 +2,7 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>个人履历详情</title>
 
 <style>
@@ -9,16 +10,18 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
 }
 
 body {
-    font-family: "Microsoft YaHei", sans-serif;
+    font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
     padding: 20px;
+    overflow-x: hidden;
 }
 
 .container {
@@ -40,24 +43,25 @@ body {
 .profile-header {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     color: white;
-    padding: 40px 30px;
+    padding: 30px 20px;
     display: flex;
     align-items: center;
-    gap: 30px;
+    gap: 20px;
     position: relative;
 }
 
 .avatar-container {
     position: relative;
+    flex-shrink: 0;
 }
 
 .avatar {
-    width: 150px;
-    height: 150px;
+    width: 120px;
+    height: 120px;
     border-radius: 50%;
-    border: 6px solid rgba(255,255,255,0.3);
+    border: 4px solid rgba(255,255,255,0.3);
     object-fit: cover;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
     transition: transform 0.3s ease;
 }
 
@@ -67,121 +71,142 @@ body {
 
 .user-basic {
     flex: 1;
+    min-width: 0; /* 防止文字溢出 */
 }
 
 .user-name {
-    font-size: 36px;
+    font-size: 28px;
     font-weight: bold;
-    margin-bottom: 8px;
+    margin-bottom: 6px;
     text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    word-break: break-word;
 }
 
 .user-id {
-    font-size: 18px;
+    font-size: 16px;
     opacity: 0.9;
-    margin-bottom: 15px;
+    margin-bottom: 12px;
+    word-break: break-all;
 }
 
 .user-tags {
     display: flex;
-    gap: 10px;
-    margin-top: 15px;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 10px;
 }
 
 .tag {
     background: rgba(255,255,255,0.2);
     backdrop-filter: blur(10px);
-    padding: 6px 15px;
+    padding: 5px 12px;
     border-radius: 20px;
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 500;
+    white-space: nowrap;
 }
 
 /* 内容区 */
 .profile-content {
-    padding: 40px;
+    padding: 30px 20px;
 }
 
 .section {
-    margin-bottom: 40px;
+    margin-bottom: 30px;
     border-left: 4px solid #667eea;
-    padding-left: 20px;
+    padding-left: 15px;
 }
 
 .section-title {
-    font-size: 24px;
+    font-size: 20px;
     color: #2d3748;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 8px;
 }
 
 .section-content {
-    font-size: 16px;
-    line-height: 1.8;
+    font-size: 15px;
+    line-height: 1.6;
     color: #4a5568;
     background: #f8f9fa;
-    padding: 20px;
-    border-radius: 12px;
+    padding: 15px;
+    border-radius: 10px;
     border-left: 4px solid #e2e8f0;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    word-break: break-word;
 }
 
-/* 社交链接 */
+/* 社交链接 - 修复样式 */
 .social-links {
     display: flex;
     flex-wrap: wrap;
-    gap: 12px;
+    gap: 10px;
     margin-top: 10px;
 }
 
 .social-link {
     display: inline-flex;
     align-items: center;
-    gap: 8px;
+    gap: 6px;
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     color: white;
     text-decoration: none;
-    padding: 12px 24px;
-    border-radius: 25px;
-    font-size: 15px;
+    padding: 10px 18px;
+    border-radius: 20px;
+    font-size: 14px;
     font-weight: 500;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 6px rgba(102, 126, 234, 0.2);
+    transition: all 0.2s ease;
+    box-shadow: 0 3px 5px rgba(102, 126, 234, 0.2);
+    border: none;
+    outline: none;
+    cursor: pointer;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    min-height: 40px;
+    min-width: 60px;
+    text-align: center;
+    justify-content: center;
 }
 
-.social-link:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 12px rgba(102, 126, 234, 0.3);
+.social-link:active {
+    transform: scale(0.95);
+    box-shadow: 0 2px 3px rgba(102, 126, 234, 0.3);
 }
 
 /* 返回按钮 */
 .back-btn {
     display: inline-flex;
     align-items: center;
-    gap: 8px;
+    gap: 6px;
     background: #667eea;
     color: white;
     border: none;
     padding: 12px 24px;
-    border-radius: 25px;
-    font-size: 16px;
+    border-radius: 20px;
+    font-size: 15px;
     cursor: pointer;
     transition: background 0.3s;
     margin-top: 20px;
     text-decoration: none;
+    justify-content: center;
+    min-height: 44px; /* 最小触摸目标大小 */
 }
 
-.back-btn:hover {
+.back-btn:active {
     background: #5a6fd8;
+    transform: scale(0.98);
 }
 
 /* 错误和加载状态 */
 .loading, .error, .not-found {
     text-align: center;
-    padding: 60px 20px;
+    padding: 40px 20px;
     color: #4a5568;
-    font-size: 18px;
+    font-size: 16px;
 }
 
 .error {
@@ -206,17 +231,19 @@ body {
     border: none;
     padding: 12px 24px;
     border-radius: 8px;
-    font-size: 16px;
+    font-size: 15px;
     cursor: pointer;
     margin-top: 20px;
     transition: background 0.3s;
+    min-height: 44px;
 }
 
-.refresh-btn:hover {
+.refresh-btn:active {
     background: #5a6fd8;
+    transform: scale(0.98);
 }
 
-/* 时间线样式（用于历史经历） */
+/* 时间线样式 */
 .timeline {
     position: relative;
     padding-left: 20px;
@@ -228,24 +255,24 @@ body {
     left: 0;
     top: 0;
     bottom: 0;
-    width: 4px;
+    width: 3px;
     background: #667eea;
     border-radius: 2px;
 }
 
 .timeline-item {
     position: relative;
-    margin-bottom: 20px;
-    padding-left: 20px;
+    margin-bottom: 15px;
+    padding-left: 15px;
 }
 
 .timeline-item::before {
     content: '';
     position: absolute;
-    left: -26px;
+    left: -24px;
     top: 6px;
-    width: 12px;
-    height: 12px;
+    width: 10px;
+    height: 10px;
     background: #667eea;
     border-radius: 50%;
     border: 3px solid white;
@@ -256,12 +283,25 @@ body {
     margin-bottom: 0;
 }
 
-/* 响应式 */
+/* 移动端优化 */
 @media (max-width: 768px) {
+    body {
+        padding: 10px;
+    }
+    
     .profile-header {
         flex-direction: column;
         text-align: center;
-        padding: 30px 20px;
+        padding: 25px 15px;
+    }
+    
+    .avatar {
+        width: 100px;
+        height: 100px;
+    }
+    
+    .user-name {
+        font-size: 24px;
     }
     
     .user-tags {
@@ -269,16 +309,45 @@ body {
     }
     
     .profile-content {
-        padding: 20px;
+        padding: 20px 15px;
+    }
+    
+    .section-title {
+        font-size: 18px;
+    }
+    
+    .section-content {
+        font-size: 14px;
+        padding: 12px;
+    }
+    
+    .social-link {
+        padding: 8px 14px;
+        font-size: 13px;
+        min-height: 36px;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        border-radius: 15px;
+    }
+    
+    .profile-header {
+        padding: 20px 15px;
     }
     
     .avatar {
-        width: 120px;
-        height: 120px;
+        width: 90px;
+        height: 90px;
     }
     
     .user-name {
-        font-size: 28px;
+        font-size: 22px;
+    }
+    
+    .social-links {
+        justify-content: center;
     }
 }
 </style>
@@ -298,11 +367,32 @@ function getQQFromURL() {
     return urlParams.get('qq');
 }
 
+// 修复链接格式
+function fixLink(url) {
+    if (!url) return '#';
+    
+    // 如果链接没有协议头，添加https://
+    if (!url.startsWith('http://') && !url.startsWith('https://')) {
+        // 处理电报的特殊情况
+        if (url.includes('t.me') || url.includes('telegram.me')) {
+            return 'https://' + url;
+        }
+        // 处理推特/X的特殊情况
+        else if (url.includes('x.com') || url.includes('twitter.com')) {
+            return 'https://' + url;
+        }
+        // 其他链接默认添加https://
+        else {
+            return 'https://' + url;
+        }
+    }
+    return url;
+}
+
 // 格式化时间线
 function formatTimeline(text) {
     if (!text) return '<p>暂无历史经历</p>';
     
-    // 尝试按段落分割
     const paragraphs = text.split('\n').filter(p => p.trim());
     
     if (paragraphs.length <= 1) {
@@ -355,7 +445,7 @@ async function loadMemberProfile() {
                     <h2>😔 未找到用户</h2>
                     <p>找不到QQ号为 <strong>${targetQQ}</strong> 的成员。</p>
                     <p>文件中共有 ${data.length} 条记录，可用的QQ号有：</p>
-                    <p style="font-size: 14px; color: #666; margin-top: 10px;">${data.slice(0, 10).map(m => m.qq).join(', ')}${data.length > 10 ? '...' : ''}</p>
+                    <p style="font-size: 14px; color: #666; margin-top: 10px;">${data.slice(0, 5).map(m => m.qq).join(', ')}${data.length > 5 ? '...' : ''}</p>
                     <a href="javascript:history.back()" class="refresh-btn">返回上一页</a>
                 </div>
             `;
@@ -378,23 +468,31 @@ async function loadMemberProfile() {
 }
 
 // 渲染用户详情页
-function renderMemberProfile(member, allData) {
+function renderMemberProfile(member) {
     // 处理社交链接
     let socialLinksHTML = '';
     for (let i = 1; i <= 10; i++) {
         const name = member[`web${i}name`];
-        const url = member[`url${i}`];
-        if (name && url) {
+        const rawUrl = member[`url${i}`];
+        
+        if (name && rawUrl) {
+            // 修复链接格式
+            const fixedUrl = fixLink(rawUrl);
+            
             // 添加图标
             let icon = '🔗';
-            if (name.includes('推特') || name.includes('X') || name.includes('twitter')) icon = '🐦';
-            else if (name.includes('电报') || name.includes('telegram')) icon = '✈️';
-            else if (name.includes('QQ')) icon = '🐧';
-            else if (name.includes('微信')) icon = '💬';
-            else if (name.includes('微博')) icon = '📱';
+            const lowerName = name.toLowerCase();
+            if (lowerName.includes('推特') || lowerName.includes('x') || lowerName.includes('twitter')) icon = '🐦';
+            else if (lowerName.includes('电报') || lowerName.includes('telegram')) icon = '✈️';
+            else if (lowerName.includes('qq') || lowerName.includes('qzone')) icon = '🐧';
+            else if (lowerName.includes('微信') || lowerName.includes('wechat')) icon = '💬';
+            else if (lowerName.includes('微博') || lowerName.includes('weibo')) icon = '📱';
+            else if (lowerName.includes('github') || lowerName.includes('git')) icon = '💻';
+            else if (lowerName.includes('bilibili') || lowerName.includes('b站')) icon = '📺';
             
+            // 创建有效的链接元素
             socialLinksHTML += `
-                <a href="${url}" target="_blank" rel="noopener noreferrer" class="social-link">
+                <a href="${fixedUrl}" target="_blank" rel="noopener noreferrer" class="social-link">
                     ${icon} ${name}
                 </a>
             `;
@@ -403,23 +501,25 @@ function renderMemberProfile(member, allData) {
     
     // 性别图标
     const genderIcon = member.sex === 'male' ? '👨' : member.sex === 'female' ? '👩' : '👤';
+    const genderText = member.sex === 'male' ? '男' : member.sex === 'female' ? '女' : '未知';
     
     const contentEl = document.getElementById('content');
     contentEl.innerHTML = `
         <div class="profile-header">
             <div class="avatar-container">
-                <img src="${member.avatar_url || 'https://via.placeholder.com/150?text=No+Avatar'}" 
+                <img src="${member.avatar_url || 'https://via.placeholder.com/120?text=头像'}" 
                      alt="${member.nickname}" 
                      class="avatar"
-                     onerror="this.src='https://via.placeholder.com/150?text=头像加载失败'">
+                     onerror="this.src='https://via.placeholder.com/120?text=头像加载失败'"
+                     loading="lazy">
             </div>
             
             <div class="user-basic">
-                <h1 class="user-name">${member.nickname}</h1>
+                <h1 class="user-name">${member.nickname || '未命名用户'}</h1>
                 <div class="user-id">QQ: ${member.qq}</div>
                 
                 <div class="user-tags">
-                    <div class="tag">${genderIcon} ${member.sex === 'male' ? '男' : member.sex === 'female' ? '女' : '未知'}</div>
+                    <div class="tag">${genderIcon} ${genderText}</div>
                     <div class="tag">🎂 ${member.age || '??'} 岁</div>
                     ${member.is_vip ? `<div class="tag" style="background: linear-gradient(135deg, gold, orange);">👑 VIP${member.vip_level || ''}</div>` : ''}
                 </div>
@@ -485,13 +585,61 @@ function renderMemberProfile(member, allData) {
             </div>
             ` : ''}
             
-            <a href="index.html" class="back-btn">← 返回成员列表</a>
+            <div style="text-align: center;">
+                <a href="javascript:history.back()" class="back-btn">← 返回上一页</a>
+            </div>
         </div>
     `;
+    
+    // 添加链接点击确认（移动端优化）
+    document.querySelectorAll('.social-link').forEach(link => {
+        link.addEventListener('click', function(e) {
+            const url = this.getAttribute('href');
+            if (url && url !== '#') {
+                // 在移动端，可以添加一个简单的确认提示
+                if (window.innerWidth <= 768) {
+                    if (confirm(`即将跳转到: ${url}\n\n确认要继续吗？`)) {
+                        window.open(url, '_blank');
+                    } else {
+                        e.preventDefault();
+                    }
+                } else {
+                    window.open(url, '_blank');
+                }
+            } else {
+                e.preventDefault();
+                alert('链接无效或未设置');
+            }
+        });
+    });
 }
 
 // 页面加载完成后执行
-document.addEventListener('DOMContentLoaded', loadMemberProfile);
+document.addEventListener('DOMContentLoaded', function() {
+    // 防止移动端缩放
+    document.addEventListener('touchstart', function(e) {
+        if (e.touches.length > 1) {
+            e.preventDefault();
+        }
+    }, { passive: false });
+    
+    let lastTouchEnd = 0;
+    document.addEventListener('touchend', function(e) {
+        const now = Date.now();
+        if (now - lastTouchEnd <= 300) {
+            e.preventDefault();
+        }
+        lastTouchEnd = now;
+    }, false);
+    
+    // 加载数据
+    loadMemberProfile();
+});
+
+// 防止双指缩放
+document.addEventListener('gesturestart', function(e) {
+    e.preventDefault();
+});
 </script>
 </body>
 </html>
